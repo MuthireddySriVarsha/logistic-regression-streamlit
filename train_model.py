@@ -1,5 +1,5 @@
 import pandas as pd
-import pickle
+import joblib
 
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
@@ -7,13 +7,11 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
-import sklearn
-print(sklearn.__version__)
 
 # -----------------------------
-# Load dataset
+# Load dataset (LOCAL FILE ONLY FOR TRAINING)
 # -----------------------------
-df = pd.read_csv(r"C:\Users\muthi\Downloads\Logistic Regression\Logistic Regression\Titanic_train.csv")   # Titanic dataset
+df = pd.read_csv("Titanic_train.csv")
 
 X = df[["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"]]
 y = df["Survived"]
@@ -53,9 +51,8 @@ model = Pipeline([
 model.fit(X, y)
 
 # -----------------------------
-# Save model
+# Save model (CLOUD-SAFE)
 # -----------------------------
-with open("model.pkl", "wb") as f:
-    pickle.dump(model, f)
+joblib.dump(model, "model.pkl")
 
 print("✅ model.pkl created successfully")
