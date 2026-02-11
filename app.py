@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import pickle
@@ -37,3 +38,4 @@ if st.button("Predict"):
         st.success(f"Survived ✅ (Probability: {prob:.2f})")
     else:
         st.error(f"Did not survive ❌ (Probability: {prob:.2f})")
+

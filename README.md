@@ -1,3 +1,4 @@
+
 # Titanic Survival Prediction (Logistic Regression)
 
 This Streamlit app predicts the survival probability of a Titanic passenger
@@ -16,5 +17,6 @@ using a Logistic Regression model.
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
+
 
 
