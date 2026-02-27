@@ -1,24 +1,22 @@
 import pandas as pd
-import joblib
+import pickle
+import sklearn
+print("Sklearn version:", sklearn.__version__)
 
-from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 
-# -----------------------------
-# Load dataset (LOCAL FILE ONLY FOR TRAINING)
-# -----------------------------
+# Load dataset (same folder)
 df = pd.read_csv("Titanic_train.csv")
 
+# Features and target
 X = df[["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"]]
 y = df["Survived"]
 
-# -----------------------------
 # Preprocessing
-# -----------------------------
 num_features = ["Age", "Fare", "SibSp", "Parch"]
 cat_features = ["Sex", "Embarked", "Pclass"]
 
@@ -37,22 +35,17 @@ preprocessor = ColumnTransformer([
     ("cat", cat_pipeline, cat_features)
 ])
 
-# -----------------------------
-# Model pipeline
-# -----------------------------
+# FULL pipeline
 model = Pipeline([
     ("preprocessing", preprocessor),
-    ("lr", LogisticRegression(max_iter=1000))
+    ("classifier", LogisticRegression(max_iter=1000))
 ])
 
-# -----------------------------
 # Train
-# -----------------------------
 model.fit(X, y)
 
-# -----------------------------
-# Save model (CLOUD-SAFE)
-# -----------------------------
-joblib.dump(model, "model.pkl")
+# Save FULL pipeline
+with open("model.pkl", "wb") as f:
+    pickle.dump(model, f)
 
 print("✅ model.pkl created successfully")
